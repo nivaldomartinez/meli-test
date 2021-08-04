@@ -4,9 +4,10 @@
 }
 
 .details-container {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
     padding: 32px;
+    grid-template-columns: 680px 1fr;
+    gap: 16px;
 }
 
 .product-detail-info {
@@ -24,7 +25,7 @@
     height: 500px;
     border-radius: 4px;
     background-position: center;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
 }
 
@@ -53,10 +54,18 @@
     border-radius: 5px;
     color: white;
     font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-buy:hover {
+    background-color: #528dfa;
 }
 
 .product-detail-description {
+    width: calc(680px - 36px);
     padding: 36px;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .title-description {

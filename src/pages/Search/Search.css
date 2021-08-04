@@ -6,7 +6,9 @@
     font-size: calc(10px + 2vmin);
     color: white;
     padding: 10px;
-    gap: 15px;
+    gap: 16px;
+    padding-right: 15%;
+    padding-left: 15%;
   }
   
   .main-content {
@@ -15,26 +17,22 @@
     padding-left: 15%;
   }
 
-.breadcrumb {
-  padding: 16px;
- }
-
  @media only screen and (max-width: 1400px) {
-  .main-content {
+  .main-content, .header {
     padding-right: 10%;
     padding-left: 10%;
   }
 }
 
 @media only screen and (max-width: 1230px) {
-  .main-content {
+  .main-content, .header {
     padding-right: 5%;
     padding-left: 5%;
   }
 }
 
  @media only screen and (max-width: 1024px) {
-  .main-content {
+  .main-content, .header {
     padding-right: 2%;
     padding-left: 2%;
   }

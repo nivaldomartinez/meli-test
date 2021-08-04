@@ -1,14 +1,17 @@
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import logo from '../../assets/images/Logo_ML.png';
-import Searchbar from '../../shared/components/Searchbar';
-import ProductDetails from '../ProducDetails';
-import SearchResults from '../SearchResults';
-import './index.css';
+import Searchbar from '../../shared/components/Searchbar/Searchbar';
+import ProductDetails from '../ProducDetails/ProductDetails';
+import SearchResults from '../SearchResults/SearchResults';
+import './Search.css';
 
 const Search = () => {
-    const queryParams = new URLSearchParams(useLocation().search);
     const routerHistory = useHistory()
 
+    /**
+     * this execute when user search
+     * @param {*} search user search
+     */
     const searchAction = (search) => {
         routerHistory.push(`/items?search=${search}`)
     }
@@ -19,11 +22,10 @@ const Search = () => {
                 <img src={logo} alt="logo" />
                 <Searchbar onSearch={searchAction} />
             </header>
-            <div className="breadcrumb"></div>
             <div className="main-content">
                 <Switch>
                     <Route path="/items" exact>
-                        <SearchResults query={queryParams.get("search")}></SearchResults>
+                        <SearchResults></SearchResults>
                     </Route>
                     <Route path="/items/:productId" exact>
                         <ProductDetails></ProductDetails>

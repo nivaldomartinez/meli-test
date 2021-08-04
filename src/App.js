@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
-import Search from './pages/Search';
+import Search from './pages/Search/Search';
 
 function App() {
   return (

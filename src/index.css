@@ -11,3 +11,25 @@ body {
 input:focus{
   outline: none;
 }
+
+.breadcrumb {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  color: #999;
+  font-size: 14px;
+}
+
+.breadcrumb .item {
+  display: inline;
+}
+
+.breadcrumb .item+.item:before {
+  padding-left: 8px;
+  padding-right: 8px;
+  color: #999;
+  content: "›";
+}
+
+.breadcrumb .item:last-child span {
+  font-weight: bold;
+}
