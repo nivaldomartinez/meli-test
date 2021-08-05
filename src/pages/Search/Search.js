@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import logo from '../../assets/images/Logo_ML.png';
 import Searchbar from '../../shared/components/Searchbar/Searchbar';
@@ -18,6 +19,9 @@ const Search = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Search | Meli Test</title>
+            </Helmet>
             <header className="header">
                 <img src={logo} alt="logo" />
                 <Searchbar onSearch={searchAction} />

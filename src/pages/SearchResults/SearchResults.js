@@ -1,9 +1,8 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useHistory, useLocation } from 'react-router-dom';
 import ProductCard from '../../shared/components/ProductCard/ProductCard';
-import endpoints from '../../Utils/endpoints';
-import replaceParams from '../../Utils/replaceParams';
+import { getCategories, getProducts } from '../../shared/services/ProductService';
 import './SearchResults.css';
 
 const SearchResults = () => {
@@ -15,9 +14,9 @@ const SearchResults = () => {
 
     useEffect(() => {
         const unlisten = routerHistory.listen((location) => {
-            getProducts(location);
+            searchProducts(location);
         })
-        getProducts(routerLocation);
+        searchProducts(routerLocation);
 
         return unlisten
     }, []);
@@ -26,17 +25,16 @@ const SearchResults = () => {
      * get products from api
      * @param {*} location router location to check changes from the url param
      */
-    const getProducts = (location) => {
+    const searchProducts = (location) => {
         const queryParams = new URLSearchParams(location.search);
         const query = queryParams.get("search");
-        axios.get(replaceParams(endpoints.search, [query, 4]))
-            .then(searchResponse => {
-                const products = searchResponse.data.results;
-                setProducts(products)
-                if (products.length) {
-                    getBreadcrumbData(products[0].category_id)
-                }
-            });
+        getProducts(query, 4).then(searchResponse => {
+            const products = searchResponse.data.results;
+            setProducts(products)
+            if (products.length) {
+                getBreadcrumbData(products[0].category_id)
+            }
+        });
     }
 
     /**
@@ -44,14 +42,16 @@ const SearchResults = () => {
      * @param {*} categoryId 
      */
     const getBreadcrumbData = (categoryId) => {
-        axios.get(replaceParams(endpoints.categories, [categoryId]))
-            .then(categoryResponse => {
-                setCategories(categoryResponse.data.path_from_root)
-            });
+        getCategories(categoryId).then(categoryResponse => {
+            setCategories(categoryResponse.data.path_from_root)
+        });
     }
 
     return (
         <div>
+            <Helmet>
+                <title>{new URLSearchParams(routerLocation.search).get("search")} | Meli Test</title>
+            </Helmet>
             <div className="breadcrumb">
                 {categories ? categories.map(category => {
                     return (
