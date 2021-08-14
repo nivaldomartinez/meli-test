@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing ProductDetails.js <ProductDetails/> should render breadcrumb and match snapshot 1`] = `
+<div>
+  <div
+    class="breadcrumb"
+    id="details-breadcrumb"
+  >
+    <div
+      class="item"
+    >
+      <span>
+        Juegos y Juguetes
+      </span>
+    </div>
+    <div
+      class="item"
+    >
+      <span>
+        Muñecos y Muñecas
+      </span>
+    </div>
+    <div
+      class="item"
+    >
+      <span>
+        Muñecos y Figuras de Acción
+      </span>
+    </div>
+  </div>
+  <div
+    class="product-details"
+  >
+    <div
+      class="details-container"
+    >
+      <div
+        class="product-detail-image"
+        id="picture"
+        style="background-image: url(http://http2.mlstatic.com/D_999725-MLA42581294630_072020-O.jpg);"
+      />
+      <div
+        class="product-detail-info"
+      >
+        <div
+          class="product-detail-condition"
+        >
+          <span>
+            new
+             - 
+            25
+             vendidos
+          </span>
+        </div>
+        <div
+          class="product-detail-title"
+        >
+          <span>
+            Toy Story Buzz Lightyear Peluche Original
+          </span>
+        </div>
+        <div
+          class="product-detail-price"
+        >
+          <span>
+            $
+            3,000
+          </span>
+           
+          <span
+            class="amount-decimals"
+          >
+            15
+          </span>
+        </div>
+        <div
+          class="btn-buy"
+        >
+          <span>
+            Comprar
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="product-detail-description"
+    >
+      <span
+        class="title-description"
+      >
+        Descripcion del producto
+      </span>
+      <p
+        class="description"
+      >
+        PELUCHE SOFT BUZZ LIGHTYEAR
+Original New Toys!
+
+
+40cm aproximadamente.
+      </p>
+    </div>
+  </div>
+</div>
+`;

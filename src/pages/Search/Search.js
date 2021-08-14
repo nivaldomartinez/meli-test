@@ -29,10 +29,10 @@ const Search = () => {
             <div className="main-content">
                 <Switch>
                     <Route path="/items" exact>
-                        <SearchResults></SearchResults>
+                        <SearchResults />
                     </Route>
                     <Route path="/items/:productId" exact>
-                        <ProductDetails></ProductDetails>
+                        <ProductDetails />
                     </Route>
                 </Switch>
             </div>

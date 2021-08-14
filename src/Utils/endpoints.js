@@ -1,8 +1,9 @@
+export const BASE_URL = "http://localhost:3000/api/";
+
 const endpoints = {
-    search: 'https://api.mercadolibre.com/sites/MLA/search?q={0}&limit={1}',
-    productDetail: 'https://api.mercadolibre.com/items/{0}',
-    productDescription: 'https://api.mercadolibre.com/items/{0}/description',
-    categories: 'https://api.mercadolibre.com/categories/{0}'
+    search: '/items?q={0}',
+    productDetail: '/api/items/{0}',
+    breadcrumb: '/breadcrumb/{0}'
 }
 
 export default endpoints

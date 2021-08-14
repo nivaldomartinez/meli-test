@@ -13,7 +13,9 @@ const Searchbar = ({ onSearch }) => {
     const searchWithEnter = (event) => {
         const code = event.keyCode || event.which;
         if (code === 13) {
-            onSearch(search)
+            if (search) {
+                onSearch(search)
+            }
         }
     }
 
@@ -21,10 +23,10 @@ const Searchbar = ({ onSearch }) => {
         <div className="searchbar-container">
             <input type="text" className="input-field" placeholder="Nunca dejes de buscar"
                 value={search} onChange={event => setSearch(event.target.value)}
-                onKeyPress={searchWithEnter} />
-            <div className="search-btn" onClick={() => { onSearch(search) }}>
+                onKeyPress={searchWithEnter} name="search" />
+            <button disabled={!search} className="search-btn" onClick={() => { onSearch(search) }}>
                 <img src={searchIcon} alt="search" />
-            </div>
+            </button>
         </div>
     )
 }

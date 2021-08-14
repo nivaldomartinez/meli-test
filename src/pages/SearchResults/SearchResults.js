@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useLocation } from 'react-router-dom';
 import ProductCard from '../../shared/components/ProductCard/ProductCard';
-import { getCategories, getProducts } from '../../shared/services/ProductService';
+import { getBreadcrumb, getProducts } from '../../shared/services/ProductService';
 import './SearchResults.css';
 
 const SearchResults = () => {
@@ -10,7 +10,7 @@ const SearchResults = () => {
     const routerHistory = useHistory()
     const routerLocation = useLocation()
     const [products, setProducts] = useState();
-    const [categories, setCategories] = useState([]);
+    const [breadcrumb, setBreadcrumb] = useState();
 
     useEffect(() => {
         const unlisten = routerHistory.listen((location) => {
@@ -28,47 +28,60 @@ const SearchResults = () => {
     const searchProducts = (location) => {
         const queryParams = new URLSearchParams(location.search);
         const query = queryParams.get("search");
-        getProducts(query, 4).then(searchResponse => {
-            const products = searchResponse.data.results;
+        getProducts(query).then(searchResponse => {
+            const products = searchResponse.data.items;
             setProducts(products)
-            if (products.length) {
-                getBreadcrumbData(products[0].category_id)
+            const { categories } = searchResponse.data;
+            if (categories.length) {
+                getBreadcrumbData(categories[0])
             }
-        });
+        }).catch(() => { });
     }
 
     /**
-     * get path from root from category
+     * get breadcrumb data by category form server
      * @param {*} categoryId 
      */
     const getBreadcrumbData = (categoryId) => {
-        getCategories(categoryId).then(categoryResponse => {
-            setCategories(categoryResponse.data.path_from_root)
-        });
+        getBreadcrumb(categoryId).then(breadcrumbResponse => {
+            setBreadcrumb(breadcrumbResponse.data.breadcrumb)
+        }).catch(() => { });
     }
+
+    /**
+     * this execute when user select a product
+     * @param {*} productId 
+     */
+    const onSelectProduct = (productId) => {
+        routerHistory.push(`/items/${productId}`);
+    }
+
+    const getTitle = new URLSearchParams(routerLocation.search).get("search");
 
     return (
         <div>
             <Helmet>
-                <title>{new URLSearchParams(routerLocation.search).get("search")} | Meli Test</title>
+                <title>`${getTitle ? getTitle : ''} | Meli Test`</title>
             </Helmet>
-            <div className="breadcrumb">
-                {categories ? categories.map(category => {
+            <div className="breadcrumb" id="results-breadcrumb">
+                {breadcrumb ? breadcrumb.map(item => {
                     return (
-                        <div className="item" key={category.id}>
-                            <span>{category.name}</span>
+                        <div className="item" key={item.id}>
+                            <span>{item.name}</span>
                         </div>
                     )
                 }) : null}
             </div>
-            <div>
+            <div id="product-list-container">
                 {
                     products ?
                         products.length ?
-                            <div className="items-container">
+                            <div className="items-container" id="items-container">
                                 {products.map(product => {
                                     return (
-                                        <ProductCard product={product} key={product.id} />
+                                        <ProductCard product={product}
+                                            onSelectProduct={onSelectProduct}
+                                            key={product.id} />
                                     )
                                 })}
                             </div>

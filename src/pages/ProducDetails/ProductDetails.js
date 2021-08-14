@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
-import { getCategories, getProductDescription, getProductDetails } from '../../shared/services/ProductService';
+import { getBreadcrumb, getProductDetails } from '../../shared/services/ProductService';
 import priceFormatter from '../../Utils/priceFormatter';
 import './ProductDetails.css';
 
@@ -9,12 +9,10 @@ const ProductDetails = () => {
     const { productId } = useParams()
 
     const [product, setProduct] = useState();
-    const [productDescription, setProductDescription] = useState('');
-    const [categories, setCategories] = useState([]);
+    const [breadcrumb, setBreadcrumb] = useState();
 
     useEffect(() => {
         getDetails();
-        getDescription();
     }, [])
 
     /**
@@ -22,28 +20,20 @@ const ProductDetails = () => {
      */
     const getDetails = () => {
         getProductDetails(productId).then(productResponse => {
-            setProduct(productResponse.data);
-            getBreadcrumbData(productResponse.data.category_id)
-        });
+            const { item: product } = productResponse.data;
+            setProduct(product);
+            getBreadcrumbData(product.category_id)
+        }).catch(error => { });
     }
 
     /**
-     * get product description from backend
-     */
-    const getDescription = () => {
-        getProductDescription(productId).then(productDescResponse => {
-            setProductDescription(productDescResponse.data.plain_text)
-        });
-    }
-
-    /**
-     * get path from root from category
+     * get breadcrumb data by category from server
      * @param {*} categoryId 
      */
     const getBreadcrumbData = (categoryId) => {
-        getCategories(categoryId).then(categoriesResponse => {
-            setCategories(categoriesResponse.data.path_from_root)
-        });
+        getBreadcrumb(categoryId).then(breadcrumbResponse => {
+            setBreadcrumb(breadcrumbResponse.data.breadcrumb)
+        }).catch(error => { });
     }
 
     return (
@@ -52,19 +42,19 @@ const ProductDetails = () => {
                 <Helmet>
                     <title>{product.title} | Meli Test</title>
                 </Helmet>
-                <div className="breadcrumb">
-                    {categories ? categories.map(category => {
+                <div className="breadcrumb" id="details-breadcrumb">
+                    {breadcrumb ? breadcrumb.map(item => {
                         return (
-                            <div className="item" key={category.id}>
-                                <span>{category.name}</span>
+                            <div className="item" key={item.id}>
+                                <span>{item.name}</span>
                             </div>
                         )
                     }) : null}
                 </div>
                 <div className="product-details">
                     <div className="details-container">
-                        <div className="product-detail-image"
-                            style={{ backgroundImage: `url(${product.pictures[0].secure_url})` }}></div>
+                        <div className="product-detail-image" id="picture"
+                            style={{ backgroundImage: `url(${product.picture})` }}></div>
                         <div className="product-detail-info">
                             <div className="product-detail-condition">
                                 <span>
@@ -75,7 +65,7 @@ const ProductDetails = () => {
                                 <span>{product.title}</span>
                             </div>
                             <div className="product-detail-price">
-                                <span>${priceFormatter(product.price)}</span> <span className="amount-decimals">{product.price.decimals}</span>
+                                <span>${priceFormatter(product.price.amount)}</span> <span className="amount-decimals">{product.price.decimals}</span>
                             </div>
                             <div className="btn-buy">
                                 <span>Comprar</span>
@@ -84,7 +74,7 @@ const ProductDetails = () => {
                     </div>
                     <div className="product-detail-description">
                         <span className="title-description">Descripcion del producto</span>
-                        <p className="description">{productDescription}</p>
+                        <p className="description">{product.description}</p>
                     </div>
                 </div>
             </Fragment> : null
