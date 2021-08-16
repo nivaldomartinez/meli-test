@@ -1,4 +1,4 @@
-import { breadcrumbResponseMock, productDetailMock, searchResponseMock } from './mocks';
+import { breadcrumbResponseMock, productDetailMock } from './mocks';
 import { getBreadcrumb, getProductDetails, getProducts } from './ProductService';
 
 describe('testing ProductService', () => {
@@ -12,7 +12,9 @@ describe('testing ProductService', () => {
 
     test('getProducts should return value from a promise', (done) => {
         getProducts('buzz').then(({ data }) => {
-            expect(data).toEqual(searchResponseMock);
+            expect(data).toHaveProperty('items');
+            expect(data).toHaveProperty('categories');
+            expect(data.items).toHaveLength(4);
             done();
         })
     })
